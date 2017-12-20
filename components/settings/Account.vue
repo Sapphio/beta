@@ -19,7 +19,7 @@
           Description
         </label>
         <div class="col-sm-12 col-md-9">
-          <textarea v-model="description" name="content[text]" cols="30" rows="7" id="description" class="form-control"></textarea>
+          <textarea v-model="description" name="description[text]" cols="30" rows="7" id="description" class="form-control"></textarea>
         </div>
       </div>
       <div class="form-group row">
@@ -111,7 +111,7 @@ export default {
     submitData() {
       return {
         name: this.name,
-        content: {
+        description: {
           text: this.description
         }
       }
@@ -120,9 +120,9 @@ export default {
   async mounted() {
     const account = this.account
     this.name = account.name
-    this.description = account.content.text
-    this.cover = account.content.cover_image
-    this.avatar = account.content.avatar_image
+    this.description = account.description.text
+    this.cover = account.cover_image
+    this.avatar = account.avatar_image
   },
   methods: {
     async update() {
