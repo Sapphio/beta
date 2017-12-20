@@ -9,8 +9,8 @@ export function sendPostNotification(posts) {
   if (!enabled || !isEnabledNotification()) return
   if (posts.length === 1) {
     const [post] = posts
-    const { text: body } = post.content
-    const { content: { avatar_image: { link: icon } } } = post.user
+    const { text: body } = post
+    const { avatar_image: { url: icon } } = post.user
     const title = getTitle(post.user)
     const options = {
       icon,
@@ -31,12 +31,10 @@ export function sendMentionNotification(mentions) {
   const enabled = localStorage.getItem('notification:mentions') === 'true'
   if (!enabled || !isEnabledNotification()) return
   return mentions.map(mention => {
-    const { text: body } = mention.content
+    const { text: body } = mention
     const {
-      content: {
-        avatar_image: {
-          link: icon
-        }
+      avatar_image: {
+        url: icon
       }
     } = mention.user
     const title = getTitle(mention.user)
