@@ -166,12 +166,12 @@ export default {
       if (this.textOverflow || this.hasNotText) return false
       const option = {
         text: this.compiledText,
-        raw: []
+        annotations: []
       }
 
       if (this.hasPhotos) {
         const raws = await this.uploadPhotos()
-        option.raw.push(...raws)
+        option.annotations.push(...raws)
       }
       if (this.replyTarget) {
         option.reply_to = this.replyTarget.id
@@ -218,11 +218,15 @@ export default {
           height: image.image_info.height,
           version: '1.0',
           type: 'photo',
-          url: image.link,
-          title: this.text
+          url: image.url,
+          title: this.text,
+          // for alpha compatibility
+          thumbnail_width: image.image_info.width,
+          thumbnail_height: image.image_info.height,
+          thumbnail_url: image.url,
         }
         return Object.assign({}, {
-          type: 'io.pnut.core.oembed'
+          type: 'net.app.core.oembed'
         }, { value })
       })
       return raws
