@@ -5,8 +5,8 @@
         What is beta?
       </h1>
       <p class="card-text">
-        Beta respect Alpha that is app.net client.
-        It is made by <nuxt-link to="@xyz">@xyz</nuxt-link> and source code are <a href="https://github.com/sunya9/beta">published on Github</a>.
+        Beta is an improved version of Alpha using nodejs and vue.js.
+        It is made by <a href="https://pnut.io/@xyz">@xyz</a> and source code are <a href="https://github.com/Sapphio/beta">published on Github</a>.
         Most of code are original, but part of CSS code refer Alpha.
       </p>
     </div>
