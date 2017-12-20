@@ -1,14 +1,16 @@
 <template>
   <div class="card profile">
-    <img :src="profile.content.cover_image.link" alt="" :width="profile.content.cover_image.width" :height="profile.content.cover_image.height || 500" @load="loaded = true" :class="{
-            'min-card-image-height': !loaded
-          }" class="img-fluid card-img-top">
+    <div style="height: 250px; overflow-y: hidden">
+      <img :src="profile.cover_image.url" alt="" :width="profile.cover_image.width" :height="profile.cover_image.height || 500" @load="loaded = true" :class="{
+              'min-card-image-height': !loaded
+            }" class="img-fluid card-img-top">
+    </div>
     <div class="card-body pt-3">
       <div class="flex-column d-flex flex-sm-row align-items-sm-start">
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
-            <a :href="profile.content.avatar_image.link">
-              <img :src="profile.content.avatar_image.link" alt="" class="rounded-circle mr-sm-3 negative" width="96" height="96" :title="profile.id">
+            <a :href="profile.avatar_image.url">
+              <img :src="profile.avatar_image.url" alt="" class="rounded-circle mr-sm-3 negative" width="96" height="96" :title="profile.id">
             </a>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
@@ -19,8 +21,8 @@
                   <small class="ml-sm-2 d-block d-sm-inline text-muted">{{profile.name}}</small>
                 </span>
               </h3>
-              <p v-if="profile.verified" class="text-center text-md-left">
-                <a :href="profile.verified.link">{{profile.verified.domain}}</a>
+              <p v-if="profile.verified_domain" class="text-center text-md-left">
+                <a :href="profile.verified_domain">{{profile.verified_domain}}</a>
               </p>
             </div>
           </div>
@@ -40,7 +42,7 @@
       <span class="card-link" to="follows" append>{{profile.counts.posts}} Posts</span>
       <nuxt-link class="card-link" to="follows" append>{{profile.counts.following}} Follows</nuxt-link>
       <nuxt-link class="card-link" to="followers" append>{{profile.counts.followers}} Followers</nuxt-link>
-      <nuxt-link class="card-link" to="starred" append>{{profile.counts.bookmarks}} Starred</nuxt-link>
+      <nuxt-link class="card-link" to="starred" append>{{profile.counts.stars}} Starred</nuxt-link>
     </div>
   </div>
 </template>
@@ -64,8 +66,8 @@ export default {
       return this.profile.follows_you ? 'Follows you' : ''
     },
     html() {
-      if (this.profile.content.html) {
-        const $ = cheerio.load(this.profile.content.html)
+      if (this.profile.description && this.profile.description.html) {
+        const $ = cheerio.load(this.profile.description.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
           .replaceWith(function() {
@@ -79,7 +81,8 @@ export default {
             const text = $(this).text()
             return `<a href="/tags/${tag}">${text}</a>`
           })
-        return emojione.toImage($('span').html())
+        //return emojione.toImage($('span').html())
+        return this.profile.description.html
       }
     }
   },
