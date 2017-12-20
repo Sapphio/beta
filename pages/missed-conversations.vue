@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>Missed Conversations</h3>
+      <h3>Most Starred</h3>
       <div>
         <compose />
       </div>
@@ -28,7 +28,7 @@ export default {
     Compose
   },
   head: {
-    title: 'Missed Conversations'
+    title: 'Most Starred'
   }
 }
 </script>
