@@ -7,9 +7,9 @@
       <div class="media-body">
         <h6 class="text-gray-dark">
           <ul class="list-inline">
-            <li :key="user.id" v-if="user.content" class="list-inline-item" v-for="user in filteredUsers">
+            <li :key="user.id" v-if="user.avatar_image" class="list-inline-item" v-for="user in filteredUsers">
               <nuxt-link :to="`@${user.username}`">
-                <img width="32" height="32" class="rounded-circle" :src="user.content.avatar_image.link">
+                <img width="32" height="32" class="rounded-circle" :src="user.avatar_image.url">
               </nuxt-link>
             </li>
           </ul>
@@ -60,6 +60,10 @@ const convert = {
     text: 'starred',
     icon: 'fa-star'
   },
+  star: {
+    text: 'starred',
+    icon: 'fa-star'
+  },
   reply: {
     text: 'replied to',
     icon: 'fa-reply'
@@ -90,10 +94,19 @@ export default {
       return this.data
     },
     actionBy() {
-      return `${convert[this.action.action].text} by`
+      if (convert[this.action.action]) {
+        return `${convert[this.action.action].text} by`
+      } else {
+        return `unknown action by`
+      }
     },
     icon() {
-      return convert[this.action.action].icon
+      if (convert[this.action.action]) {
+        return convert[this.action.action].icon
+      } else {
+        // set a default
+        return "fa-question"
+      }
     },
     html() {
       switch (this.action.action) {
