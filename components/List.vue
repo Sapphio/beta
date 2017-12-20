@@ -184,7 +184,7 @@ export default {
           }
           const mentions = newItems.filter(post => {
             const notMe = this.$store.state.user.id !== post.user.id
-            const includedInMention = post.content.entities && post.content.entities.mentions.some(mention =>
+            const includedInMention = post.entities && post.entities.mentions.some(mention =>
               mention.id === this.$store.state.user.id)
             return notMe && includedInMention
           })
