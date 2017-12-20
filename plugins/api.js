@@ -27,7 +27,7 @@ class API {
 
   async get(resource, body) {
     const defaults = {
-      include_post_raw: 1,
+      include_post_annotations: 1,
       include_directed_posts: 0
     }
     const queryObj = Object.assign({}, defaults, body)
@@ -54,29 +54,30 @@ class API {
 }
 
 API.RESOURCE_MAP = {
-  index: '/posts/streams/me',
+  index: '/posts/stream',
   mentions: '/users/me/mentions',
-  interactions: '/users/me/actions',
-  stars: '/users/me/bookmarks',
-  conversations: '/posts/streams/explore/conversations',
-  'missed-conversations': '/posts/streams/explore/missed_conversations',
-  photos: '/posts/streams/explore/photos',
-  trending: '/posts/streams/explore/trending',
-  global: '/posts/streams/global',
-  'posts-id': ({ params }) => `/posts/${params.id}/thread`,
+  interactions: '/users/me/interactions',
+  stars: '/users/me/stars',
+  conversations: '/posts/stream/explore/conversations',
+  'missed-conversations': '/posts/stream/explore/moststarred',
+  'most-starred': '/posts/stream/explore/moststarred',
+  photos: '/posts/stream/explore/photos',
+  trending: '/posts/stream/explore/trending',
+  global: '/posts/stream/global',
+  'posts-id': ({ params }) => `/posts/${params.id}/replies`,
   'tags-name': ({ params }) => `/posts/tag/${encodeURIComponent(params.name)}`,
   '@name': ({ params }) => `/users/@${params.name}/posts`,
   '@name-follows': ({ params }) => `/users/@${params.name}/following`,
   '@name-followers': ({ params }) => `/users/@${params.name}/followers`,
-  '@name-starred': ({ params }) => `/users/@${params.name}/bookmarks`,
-  '@name-posts-id': ({ params }) => `/posts/${params.id}/thread`,
+  '@name-starred': ({ params }) => `/users/@${params.name}/stars`,
+  '@name-posts-id': ({ params }) => `/posts/${params.id}/replies`,
   'files': '/users/me/files',
   'files-id': ({ params }) => `/files/${params.id}`,
   'search-users': '/users/search',
   'search-posts': '/posts/search'
 }
 
-class PnutAPI extends API {
+class TavrnAPI extends API {
   constructor(ctx) {
     super(ctx)
     if (ctx.req.user && ctx.req.user.token) {
@@ -86,9 +87,9 @@ class PnutAPI extends API {
   }
 
   async request(resource, method = 'get', body = {}) {
-    const pnut = require('pnut-butter')
-    pnut.token = this._token
-    const data = await pnut.custom(resource, method, body)
+    const tavrn = require('tavrn-butter')
+    tavrn.token = this._token
+    const data = await tavrn.custom(resource, method, body)
     return data
   }
 }
@@ -109,5 +110,5 @@ class AxiosAPI extends API {
 }
 
 export default (ctx = {}) => process.server
-  ? new PnutAPI(ctx)
+  ? new TavrnAPI(ctx)
   : new AxiosAPI(ctx)
