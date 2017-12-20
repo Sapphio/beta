@@ -25,7 +25,7 @@ module.exports = {
     {
       hid: 'description',
       name: 'description',
-      content: 'beta is pnut.io client.'
+      content: 'beta is tavrn.gg client.'
     },
     {
       'http-equiv': 'Pragma',
