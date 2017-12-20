@@ -12,13 +12,13 @@
             Beta
           </span>
         </nuxt-link>
-        <search-form id="search-form" class="mr-md-4 order-3 order-md-1" />
+        <!-- search-form id="search-form" class="mr-md-4 order-3 order-md-1" / -->
         <ul class="order-2 navbar-nav d-flex flex-row align-items-stretch">
-          <li class="nav-item" v-if="user" id="nav-files">
+          <!-- li class="nav-item" v-if="user" id="nav-files">
             <nuxt-link to="/files" class="nav-link text-dark">
               <i class="fa fa-database fa-lg"></i>
             </nuxt-link>
-          </li>
+          </li -->
           <li class="nav-item dropdown" v-if="user">
             <a href="#" class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{user.username}}
@@ -29,7 +29,7 @@
                 Profile
               </nuxt-link>
               <div class="dropdown-divider"></div>
-              <nuxt-link data-toggle="collapse" data-target="#navbarSupportedContent.show" to="/settings" class="dropdown-item">
+              <nuxt-link data-toggle="collapse" data-target="#navbarSupportedContent.show" to="/settings/notification" class="dropdown-item">
                 Settings
               </nuxt-link>
               <div class="dropdown-divider"></div>
