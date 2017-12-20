@@ -31,13 +31,17 @@ export default {
       },
       {type: 'heading', label: 'Explore'},
       {
+        label: 'Global',
+        url: '/global',
+        icon: 'fa-globe'
+      }, {
         label: 'Conversations',
         url: '/conversations',
         icon: 'fa-comments'
       }, {
-        label: 'Missed Conversations',
-        url: '/missed-conversations',
-        icon: 'fa-comment'
+        label: 'Most Starred',
+        url: '/most-starred',
+        icon: 'fa-star'
       }, {
         label: 'Photos',
         url: '/photos',
@@ -46,10 +50,6 @@ export default {
         label: 'Trending',
         url: '/trending',
         icon: 'fa-line-chart'
-      }, {
-        label: 'Global',
-        url: '/global',
-        icon: 'fa-globe'
       },
       {type: 'heading', label: 'Other'},
       {
@@ -58,7 +58,7 @@ export default {
         icon: 'fa-info-circle'
       }, {
         label: 'Beta on Github',
-        url: 'https://github.com/sunya9/beta',
+        url: 'https://github.com/Sapphio/beta',
         normal: true,
         icon: 'fa-github'
       }, {
