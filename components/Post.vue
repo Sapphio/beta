@@ -4,7 +4,7 @@
                                                 deleted: post.is_deleted
                                               }" class="media w-100 justify-content-start">
       <nuxt-link :to="`/@${mainPost.user.username}`" v-if="!preview">
-        <img :src="mainPost.user.content.avatar_image.link" alt="" class="d-flex mr-3 rounded-circle iconSize" width="64" height="64">
+        <img :src="mainPost.user.avatar_image.url" alt="" class="d-flex mr-3 rounded-circle iconSize" width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <h6 class="mt-1">
@@ -76,19 +76,19 @@
             <ul class="list-inline">
               <li class="list-inline-item">
                 <div class="count">
-                  {{post.counts.replies}}
+                  {{post.num_replies}}
                 </div>
                 <small class="text-muted">replies</small>
               </li>
               <li class="list-inline-item">
                 <div class="count">
-                  {{post.counts.reposts}}
+                  {{post.num_reposts}}
                 </div>
                 <small class="text-muted">reposts</small>
               </li>
               <li class="list-inline-item">
                 <div class="count">
-                  {{post.counts.bookmarks}}
+                  {{post.num_stars}}
                 </div>
                 <small class="text-muted">stars</small>
               </li>
@@ -96,7 +96,7 @@
             <ul class="list-inline ml-3">
               <li class="list-inline-item" :key="user.id" v-for="user in reactionUsers">
                 <nuxt-link :to="`/@${user.username}`" :title="`@${user.username}`">
-                  <img :src="user.content.avatar_image.link" class="rounded-circle" width="24" height="24" />
+                  <img :src="user.avatar_image.url" class="rounded-circle" width="24" height="24" />
                 </nuxt-link>
               </li>
             </ul>
@@ -105,7 +105,7 @@
       </div>
       <div class="ml-auto mt-1" v-if="!viewOnly && user && !post.is_deleted">
         <div class="btn-group-vertical" role="group">
-          <action-button ref="favorite" :resource="`/proxy/posts/${mainPost.id}/bookmark`" :icon="['fa-star-o', 'fa-star']" :initial-state="mainPost.you_bookmarked" />
+          <action-button ref="favorite" :resource="`/proxy/posts/${mainPost.id}/star`" :icon="['fa-star-o', 'fa-star']" :initial-state="mainPost.you_starred" />
           <action-button v-if="!me" ref="repost" :resource="`/proxy/posts/${mainPost.id}/repost`" icon="fa-retweet" :initial-state="mainPost.you_reposted" />
         </div>
       </div>
@@ -154,7 +154,7 @@ export default {
   computed: {
     reactionUsers() {
       if (!this.detail) return []
-      const users = this.mainPost.bookmarked_by.concat(this.mainPost.reposted_by)
+      const users = this.mainPost.starred_by.concat(this.mainPost.reposters)
       return users
         // .slice(0, 10)
         .reduce((res, user, i, users) => {
@@ -173,7 +173,7 @@ export default {
     },
     html() {
       if (!this.post.is_deleted) {
-        const $ = cheerio.load(this.mainPost.content.html, { decodeEntities: false })
+        const $ = cheerio.load(this.mainPost.html, { decodeEntities: false })
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
           .replaceWith(function() {
@@ -193,11 +193,11 @@ export default {
       }
     },
     thumbs() {
-      if (!this.mainPost.content) return []
+      if (!this.mainPost) return []
       const imgExt = /\.(png|gif|jpe?g|bmp|svg)$/
       const photos = []
       const linkPhotos = this.mainPost
-        .content.entities.links
+        .entities.links
         .filter(link => imgExt.test(link.link))
         .map(link => {
           return {
@@ -206,9 +206,14 @@ export default {
           }
         })
       Array.prototype.push.apply(photos, linkPhotos)
+      if (this.mainPost.annotations && !this.mainPost.raw) {
+        this.mainPost.raw = this.mainPost.annotations
+      }
       if (this.mainPost.raw) {
         const embedPhotos = this.mainPost.raw.filter(r => {
-          return r.type === 'io.pnut.core.oembed' &&
+          return (r.type === 'io.pnut.core.oembed' ||
+            r.type === 'net.app.core.oembed' ||
+            r.type === 'gg.tavrn.core.oembed') &&
             r.value.type === 'photo'
         }).map(r => {
           return {
