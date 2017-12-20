@@ -2,7 +2,7 @@
   <li @focus="focus" tabindex="-1" class="list-group-item list-group-item-action">
     <div class="media w-100">
       <nuxt-link :to="`/@${user.username}`">
-        <img :src="user.content.avatar_image.link" alt="" class="d-flex mr-3 rounded-circle" width="64" height="64">
+        <img :src="user.avatar_image.url" alt="" class="d-flex mr-3 rounded-circle" width="64" height="64">
       </nuxt-link>
       <div class="media-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
@@ -37,8 +37,8 @@ export default {
       return this.data.follows_you ? 'Follows you' : ''
     },
     html() {
-      if (this.user.content && this.user.content.html) {
-        const $ = cheerio.load(this.user.content.html)
+      if (this.user.description && this.user.description.html) {
+        const $ = cheerio.load(this.user.description.html)
         $('a').attr('target', '_new')
         $('span[data-mention-name]')
           .replaceWith(function() {
@@ -52,7 +52,8 @@ export default {
             const text = $(this).text()
             return `<a href="/tags/${tag}">${text}</a>`
           })
-        return emojione.toImage($('span').html())
+        //return emojione.toImage($('span').html())
+        return $('span').html()
       }
     },
     user() {
