@@ -17,13 +17,13 @@ export default {
     const _api = api(ctx)
     const option = {
       include_directed_posts: 1,
-      include_bookmarked_by: 1,
-      include_reposted_by: 1
+      include_starred_by: 1,
+      include_reposters: 1
     }
     const postPromise = _api.fetch({
       include_directed_posts: 1,
-      include_bookmarked_by: 1,
-      include_reposted_by: 1
+      include_starred_by: 1,
+      include_reposters: 1
     })
 
     const data = await postPromise
@@ -51,15 +51,20 @@ export default {
     }
   },
   head() {
+    //console.log("data", this.data.data)
     const [post] = this.data.data
       .filter(post => post.id === this.id)
-    let title = post.content.text
-    if (title.length > 30) {
-      title = title.substr(0, 30) + '…'
+    var name = "unknown"
+    var title = ""
+    if (post) {
+      title = post.text
+      if (title.length > 30) {
+        title = title.substr(0, 30) + '…'
+      }
+      name = post.user.name
+        ? `${post.user.name}(@${post.user.username})`
+        : `@${post.user.username}`
     }
-    const name = post.user.name
-      ? `${post.user.name}(@${post.user.username})`
-      : `@${post.user.username}`
     title = `${name}: ${title}`
     return {
       title
