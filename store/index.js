@@ -17,6 +17,11 @@ const store = () => new Vuex.Store({
     async nuxtServerInit({ commit }, ctx) {
       const { req } = ctx
       if (req.user) {
+        const res = await api(ctx).request('/token').catch(() => ({data: {}}))
+        if (res.meta.code == 401) {
+          // token is no longer valid
+          return
+        }
         const { data: { storage } } = await api(ctx).request('/token').catch(() => ({data: {}}))
         const user = Object.assign({}, req.user, {
           storage
