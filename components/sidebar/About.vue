@@ -11,12 +11,14 @@ export default {
         icon: 'fa-info-circle',
         url: '/about'
       },
+      /*
       {type: 'heading', label: 'Resources'},
       {
         label: 'Bookmarklet',
         icon: 'fa-bookmark',
         url: '/about/bookmarklet'
       }
+      */
     ]
     return {
       menus
