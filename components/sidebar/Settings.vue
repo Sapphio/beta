@@ -8,6 +8,11 @@ import Sidebar from './Sidebar'
         icon: 'fa-user',
         url: '/settings'
       },
+      {
+        label: 'Imgur',
+        icon: 'fa-picture-o',
+        url: '/settings/imgur'
+      },
 */
 
 export default {
@@ -21,13 +26,18 @@ export default {
         url: '/settings/notification'
       },
       {
+        label: 'Display',
+        icon: 'fa-paint-brush',
+        url: '/settings/display'
+      },
+      {
         label: 'Stream',
         icon: 'fa-list',
         url: '/settings/stream'
       },
-      {type: 'heading', label: 'User'},
+      {type: 'heading', label: 'Account'},
       {
-        label: 'Account',
+        label: 'Profile',
         icon: 'fa-user',
         normal: true,
         url: 'https://accounts.sapphire.moe/app/users/my'
