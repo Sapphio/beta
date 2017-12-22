@@ -56,6 +56,7 @@ export default {
       .filter(post => post.id === this.id)
     var name = "unknown"
     var title = ""
+    var meta = []
     if (post) {
       title = post.text
       if (title.length > 30) {
@@ -64,10 +65,38 @@ export default {
       name = post.user.name
         ? `${post.user.name}(@${post.user.username})`
         : `@${post.user.username}`
+
+      meta.push({property: 'og:site_name', content: 'Tavrn | Beta | Post'})
+      meta.push({property: 'og:title', content: title})
+      meta.push({property: 'og:description', content: post.text})
+      meta.push({property: 'og:type', content: 'article'})
+      meta.push({property: 'og:url', content: 'http://beta.tavrn.gg/@'+post.user.username+'/'+post.id})
+      meta.push({property: 'og:type', content: 'article'})
+
+      if (post.annotations) {
+        const embedPhotos = post.annotations.filter(r => {
+          return (r.type === 'io.pnut.core.oembed' ||
+            r.type === 'net.app.core.oembed' ||
+            r.type === 'gg.tavrn.core.oembed') &&
+            r.value.type === 'photo'
+        }).map(r => {
+          return {
+            original: r.value.url,
+            thumb: r.value.url
+          }
+        })
+        if (embedPhotos.length) {
+          var image_url = embedPhotos[0].thumb
+          meta.push({property: 'og:image', content: image_url})
+          //{property: 'og:image:width', content: '1000'},
+          meta.push({property: 'twitter:image:src', content: image_url})
+        }
+      }
     }
     title = `${name}: ${title}`
     return {
-      title
+      title: title,
+      meta: meta
     }
   }
 }
