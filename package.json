@@ -24,6 +24,7 @@
     ]
   },
   "dependencies": {
+    "append-query": "^2.0.1",
     "async-busboy": "^0.6.2",
     "axios": "^0.16.1",
     "bootstrap": "4.0.0-beta",
@@ -52,12 +53,12 @@
     "node-sass": "^4.5.3",
     "nuxt": "^1.0.0-rc11",
     "passport-pnut": "^0.1.1",
-    "tavrn-butter": "^0.14.0",
     "popper.js": "^1.11.1",
     "qs": "^6.4.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "sass-loader": "^6.0.3",
+    "snake-case": "^2.1.0",
     "string-length": "^2.0.0",
     "tether": "^1.4.0",
     "twemoji": "^2.5.0",

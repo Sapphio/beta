@@ -10,6 +10,10 @@ class API {
     this._token = ''
     this.isServer = ctx.isServer
     if (ctx.route) {
+      if (ctx.store && ctx.store.state.unified_timeline) {
+        console.log('overriding index route')
+        API.RESOURCE_MAP.index = '/posts/stream/unified'
+      }
       this.resource = API.RESOURCE_MAP[ctx.route.name]
       if (typeof this.resource === 'function') {
         this.resource = this.resource({
@@ -87,9 +91,26 @@ class TavrnAPI extends API {
   }
 
   async request(resource, method = 'get', body = {}) {
-    const tavrn = require('tavrn-butter')
-    tavrn.token = this._token
-    const data = await tavrn.custom(resource, method, body)
+    const token = this._token
+    const data = await (async () => {
+        let options = {
+          method,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+        if (method.toUpperCase() !== "GET" && Object.keys(body).length > 0) {
+          options.body = JSON.stringify(body)
+          options.headers["Content-Type"] = "application/json"
+        }
+        const uri = `http://api.sapphire.moe:7070${resource}`
+        const fetch = require('node-fetch')
+        const res = await fetch(uri, options)
+          .then(function(response) {
+            return response.json()
+          })
+        return res
+      })()
     return data
   }
 }
