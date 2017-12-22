@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="navbar navbar-light navbar fixed-top px-0">
+    <div class="navbar navbar fixed-top px-0">
       <div class="container relative">
 
         <button v-if="$slots.menu" class="d-md-none mr-3 navbar-toggler align-self-center" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
