@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-sm-between w-100 flex-column flex-sm-row">
           <div class="d-flex flex-column align-items-center align-items-sm-stretch flex-sm-row justify-content-center justify-content-sm-start">
             <a :href="profile.avatar_image.url">
-              <img :src="profile.avatar_image.url" alt="" class="rounded-circle mr-sm-3 negative" width="96" height="96" :title="profile.id">
+              <img :src="profile.avatar_image.url + '?w=120'" alt="" :class="'mr-sm-3 negative ' + avatarClass" width="96" height="96" :title="profile.id">
             </a>
             <div class="w-100">
               <h3 class="card-title mb-1" :title="profile.id">
@@ -57,7 +57,8 @@ export default {
   props: ['profile'],
   data() {
     return {
-      loaded: false
+      loaded: false,
+      avatarClass: this.$store.state.square_avatars ? '' : 'rounded-circle'
     }
   },
   computed: {
