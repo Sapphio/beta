@@ -2,17 +2,17 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <image-upload />
+        <stream />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ImageUpload from '~/components/settings/ImageUpload'
+import Stream from '~/components/settings/Stream'
 export default {
   components: {
-    ImageUpload
+    Stream
   },
   head() {
     return {
