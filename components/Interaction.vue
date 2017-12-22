@@ -9,7 +9,7 @@
           <ul class="list-inline">
             <li :key="user.id" v-if="user.avatar_image" class="list-inline-item" v-for="user in filteredUsers">
               <nuxt-link :to="`@${user.username}`">
-                <img width="32" height="32" class="rounded-circle" :src="user.avatar_image.url">
+                <img width="32" height="32" :class="avatarClass" :src="user.avatar_image.url + '?w=120'">
               </nuxt-link>
             </li>
           </ul>
@@ -79,7 +79,8 @@ export default {
   props: ['data'],
   data() {
     return {
-      date: null
+      date: null,
+      avatarClass: this.$store.state.square_avatars ? '' : 'rounded-circle'
     }
   },
   mounted() {
