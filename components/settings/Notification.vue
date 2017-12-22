@@ -10,6 +10,9 @@
     <custom-checkbox v-model="types.mentions" :disabled="!notification">
       New mentions
     </custom-checkbox>
+    <custom-checkbox v-model="types.interactions" :disabled="!notification">
+      New interactions
+    </custom-checkbox>
   </div>
 </template>
 
@@ -22,7 +25,8 @@ export default {
       notification: false,
       types: {
         posts: false,
-        mentions: false
+        mentions: false,
+        interactions: false,
       },
       disabledNotification: false,
       error: null
@@ -46,6 +50,9 @@ export default {
     },
     'types.mentions'(newVal) {
       localStorage.setItem('notification:mentions', newVal)
+    },
+    'types.interactions'(newVal) {
+      localStorage.setItem('notification:interactions', newVal)
     }
   },
   methods: {

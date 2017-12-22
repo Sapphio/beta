@@ -45,3 +45,47 @@ export function sendMentionNotification(mentions) {
     return new Notification(title, options)
   })
 }
+
+export function sendInteractionNotification(interactions) {
+  const enabled = localStorage.getItem('notification:interactions') === 'true'
+  if (!enabled || !isEnabledNotification()) return
+  var title = ''
+  var options = {}
+  if (interactions.length === 1) {
+    const [interaction] = interactions
+    //console.log('interaction', interaction);
+    const { action: body } = interaction
+    const {
+      avatar_image: {
+        url: icon
+      }
+    } = interaction.users[0]
+    title = getTitle(interaction.users[0])
+    options = {
+      icon,
+      body,
+      data: {
+        interaction: interaction
+      }
+    }
+  } else {
+    const count = interactions.length
+    title = `Receive ${count} interactions.`
+    options = {
+      icon: '/img/beta.png'
+    }
+  }
+  var note = new Notification(title, options)
+  note.onclick = function(event) {
+    event.preventDefault(); // prevent the browser from focusing the Notification's tab
+    note.close();
+    // If the window is minimized, restore the size of the window
+    window.open().close();
+    // focus
+    window.focus();
+    //console.log('interaction event', event)
+    //window.open("https://beta.tavrn.gg/interactions");
+    window.location="https://beta.tavrn.gg/interactions";
+  }
+  return note;
+}
