@@ -19,9 +19,9 @@ import User from '~/components/User'
 import Post from '~/components/Post'
 import Interaction from '~/components/Interaction'
 import api from '~/plugins/api'
-import { sendPostNotification, sendMentionNotification } from '~/assets/js/notification-wrapper'
+import { sendPostNotification, sendMentionNotification, sendInteractionNotification } from '~/assets/js/notification-wrapper'
 
-const INTERVAL = 1000 * 60 // 1min
+const INTERVAL = 1000 * 1 // 1min
 
 export default {
   props: {
@@ -90,7 +90,7 @@ export default {
       return Object.assign({}, this.option, option)
     },
     isAutoRefresh() {
-      return this.autoRefresh && this.type === 'Post'
+      return this.autoRefresh && (this.type === 'Post' || this.type === 'Interaction')
     }
   },
   mounted() {
@@ -167,6 +167,29 @@ export default {
     async refresh() {
       if (this.refreshing) return
       this.refreshing = true
+      //console.log('route:', this.$route)
+      if (this.type !== 'Interaction') {
+        const option = Object.assign({}, this.defaultOption, {
+          since_id: this.lastInteractionId
+        })
+        const { data: newInteractions } = await api({
+          route: {
+            fullPath: "/interactions",
+            name: "interactions",
+            path: "/interactions",
+            query: {},
+            params: {},
+            meta: {},
+            hash: ""
+          }
+        }).fetch(option)
+        if (newInteractions.length > 0) {
+          if (this.lastInteractionId) {
+            sendInteractionNotification(newInteractions)
+          }
+          this.lastInteractionId = newInteractions[0].pagination_id
+        }
+      }
       const option = Object.assign({}, this.defaultOption, {
         since_id: this.id(this.items[0])
       })
@@ -190,6 +213,13 @@ export default {
           })
           if (mentions.length > 0) {
             sendMentionNotification(mentions)
+          }
+        } else if (this.type === 'Interaction') {
+          console.log('type=Interaction', newItems)
+
+          const interactions = newItems
+          if (interactions.length > 0) {
+            sendInteractionNotification(interactions)
           }
         }
       }
