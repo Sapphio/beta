@@ -79,7 +79,8 @@ export default {
   },
   data() {
     return {
-      marginTop: 48 // default margin size
+      marginTop: 48, // default margin size
+      bodyClass: '',
     }
   },
   computed: {
@@ -102,9 +103,23 @@ export default {
     ...mapState(['user'])
   },
   mounted() {
+    if (typeof this.$store.state.set === 'undefined') {
+      this.$store.state.set = 1 // inferior way to restore state
+      //this.$store.commit('SET_UNIFIED', localStorage.unified_timeline === 'true')
+      console.log('default.vue - loading localStorage into store')
+      this.$store.commit('SET_DIRECTED', localStorage.hide_directed_posts === 'true')
+      //this.$store.commit('SET_SQUARE', localStorage.square_avatars === 'true')
+      //this.$store.commit('SET_THEME', localStorage.dark_theme === 'true')
+    }
+    this.bodyClass = localStorage.getItem(`dark_theme`) === 'true' ? 'dark' : ''
+    //console.log('bodyClass is now', this.bodyClass)
+
     const { height } = this.$refs.header.$el.querySelector('.navbar').getBoundingClientRect()
     this.marginTop = height
     const router = this.$router
+
+    //console.log('layout mount', this.$refs.querySelector('body'))
+
     // new post
     Mousetrap.bind('n', () => this.$refs.postModal.showModal())
     Mousetrap.bind('?', () => this.$refs.helpModal.showModal())
@@ -133,6 +148,13 @@ export default {
     Mousetrap.unbind('g p')
     Mousetrap.unbind('g t')
     Mousetrap.unbind('g g')
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        class: this.bodyClass
+      }
+    }
   }
 }
 </script>
