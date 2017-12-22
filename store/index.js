@@ -6,11 +6,28 @@ Vue.use(Vuex)
 
 const store = () => new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    hide_directed_posts: false,
+    square_avatars: false,
+    unified_timeline: false,
+    dark_theme: false
   },
   mutations: {
     SET_USER(state, user) {
       state.user = user
+    },
+    SET_DIRECTED(state, value) {
+      console.log('SET_DIRECTED', value)
+      state.hide_directed_posts = value
+    },
+    SET_SQUARE(state, value) {
+      state.square_avatars = value
+    },
+    SET_UNIFIED(state, value) {
+      state.unified_timeline = value
+    },
+    SET_THEME(state, value) {
+      state.dark_theme = value
     }
   },
   actions: {
