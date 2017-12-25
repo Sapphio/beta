@@ -45,18 +45,16 @@ export default {
   },
   head: {
     title: 'Your Stream',
-    /*
     meta: [
-      {property: 'og:title', content: 'title'},
+      {property: 'og:title', content: 'Beta, a Tavrn client'},
       {property: 'og:type', content: 'article'},
-      {property: 'og:url', content: 'http://c5e3b0ec.ngrok.io/blog/s'},// here it is just ngrok for my test
-      {property: 'og:description', content: 'description'},
-      {property: 'og:image', content: 'https://firebasestorage.googleapis.com/v0/b/dev-blog-2503f.appspot.com/o/postsStorage%2F-KxXdvvLqDHBcxdUfLgn%2Fonfleck?alt=media&token=24a9bf5b-dce2-46e8-b175-fb63f7501c98'},
-      {property: 'twitter:image:src', content: 'https://firebasestorage.googleapis.com/v0/b/dev-blog-2503f.appspot.com/o/postsStorage%2F-KxXdvvLqDHBcxdUfLgn%2Fonfleck?alt=media&token=24a9bf5b-dce2-46e8-b175-fb63f7501c98'},
-      {property: 'og:image:width', content: '1000'},
-      {property: 'og:site_name', content: '41devs | blog'}
+      {property: 'og:url', content: 'https://beta.tavrn.gg'},// here it is just ngrok for my test
+      {property: 'og:description', content: 'Beta, a Tavrn client'},
+      {property: 'og:image', content: 'https://beta.tavrn.gg/_nuxt/img/beta.6b17b7d.png'},
+      {property: 'twitter:image:src', content: 'https://beta.tavrn.gg/_nuxt/img/beta.6b17b7d.png'},
+      {property: 'og:image:width', content: '256'},
+      {property: 'og:site_name', content: 'Tavrn | Beta'}
     ]
-    */
   }
 }
 </script>
