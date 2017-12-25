@@ -58,7 +58,7 @@ export default {
             return `<a href="/tags/${tag}">${text}</a>`
           })
         //return emojione.toImage($('span').html())
-        return $('span').html()
+        return this.user.description.html
       }
     },
     user() {
